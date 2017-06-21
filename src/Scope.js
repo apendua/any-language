@@ -1,10 +1,10 @@
 
 export default class Scope {
   // TODO: The arguments should go the other way around.
-  constructor(parent, symbols) {
+  constructor(parent, newSymbols) {
     this.symbols = {};
-    if (symbols) {
-      Object.assign(this.symbols, symbols);
+    if (newSymbols) {
+      Object.assign(this.symbols, newSymbols);
     }
     if (parent && !(parent instanceof Scope)) {
       throw new Error('Scope parent must be an instanceof Scope.');
@@ -42,7 +42,7 @@ export default class Scope {
     return undefined;
   }
 
-  child(symbols) {
-    return new this.constructor(this, symbols);
+  child(newSymbols) {
+    return new this.constructor(this, newSymbols);
   }
 }

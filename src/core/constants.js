@@ -7,7 +7,7 @@ export const TOKEN_TYPE_STRING = 'STRING';
 export const TOKEN_TYPE_COMMENT = 'COMMENT';
 export const TOKEN_TYPE_WHITESPACE = 'WHITESPACE';
 
-export const DEFAULT_OPERATOR_PREFIXES = '.<>+-=!';
+export const DEFAULT_OPERATOR_PREFIXES = '.<>+-*/=!()';
 export const DEFAULT_OPERATOR_SUFFIXES = '.=>';
 
 // TODO: Consider adding another type of symbol: SYMBOL_KEYWORD

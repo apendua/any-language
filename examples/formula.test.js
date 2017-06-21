@@ -4,18 +4,18 @@
 /* eslint no-param-reassign: "off" */
 
 import chai from 'chai';
-import Tokenizer from '../Tokenizer.js';
-import Interpreter from '../Interpreter.js';
-import Parser from '../Parser.js';
+import Tokenizer from '../src/Tokenizer.js';
+import Interpreter from '../src/Interpreter.js';
+import Parser from '../src/Parser.js';
 import {
   SYMBOL_LITERAL,
   SYMBOL_IDENTIFIER,
-} from '../core/constants.js';
+} from '../src/core/constants.js';
 
 import {
   ParseError,
   SemanticError,
-} from '../core/errors.js';
+} from '../src/core/errors.js';
 
 const should = chai.should();
 const tokenizer = new Tokenizer();
@@ -70,7 +70,6 @@ function unary(id, bp) {
   return (grammar) => {
     grammar
       .symbol(id)
-      .setBindingPower(bp)
       .ifUsedAsPrefix(parse => ({
         value: id,
         right: parse.expression(bp),
