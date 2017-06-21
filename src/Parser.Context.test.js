@@ -228,7 +228,7 @@ describe('Test Parser.Context;', () => {
       this.grammar = createGrammar();
       this.context = new Context({
         tokens: [],
-        grammar: new Scope(null, this.grammar),
+        symbols: new Scope(null, this.grammar),
       });
     });
 
@@ -291,7 +291,7 @@ describe('Test Parser.Context;', () => {
         ];
         this.context = new Context({
           tokens: this.tokens,
-          grammar: new Scope(null, this.grammar),
+          symbols: new Scope(null, this.grammar),
         });
       });
 
@@ -383,7 +383,7 @@ describe('Test Parser.Context;', () => {
         this.context = new Context({
           order: 2,
           tokens: this.tokens,
-          grammar: new Scope(null, this.grammar),
+          symbols: new Scope(null, this.grammar),
         });
       });
 
@@ -480,7 +480,7 @@ describe('Test Parser.Context;', () => {
         ];
         this.context = new Context({
           tokens: this.tokens,
-          grammar: new Scope(null, this.grammar),
+          symbols: new Scope(null, this.grammar),
         });
       });
       it('should be able to parse expression', function () {
@@ -503,7 +503,7 @@ describe('Test Parser.Context;', () => {
         ];
         this.context = new Context({
           tokens: this.tokens,
-          grammar: new Scope(null, this.grammar),
+          symbols: new Scope(null, this.grammar),
         });
       });
       it('should be able to parse expression', function () {
@@ -523,7 +523,7 @@ describe('Test Parser.Context;', () => {
         ];
         this.context = new Context({
           tokens: this.tokens,
-          grammar: new Scope(null, this.grammar),
+          symbols: new Scope(null, this.grammar),
         });
       });
       it('should be able to parse all statement in block', function () {
@@ -549,7 +549,7 @@ describe('Test Parser.Context;', () => {
         ];
         this.context = new Context({
           tokens: this.tokens,
-          grammar: new Scope(null, this.grammar),
+          symbols: new Scope(null, this.grammar),
         });
       });
       it('should be able to parse a single statement', function () {
@@ -589,7 +589,7 @@ describe('Test Parser.Context;', () => {
         ];
         this.context = new Context({
           tokens: this.tokens,
-          grammar: new Scope(null, this.grammar),
+          symbols: new Scope(null, this.grammar),
         });
       });
       it('should be able to parse a single statement', function () {
@@ -620,7 +620,7 @@ describe('Test Parser.Context;', () => {
         ];
         this.context = new Context({
           tokens: this.tokens,
-          grammar: new Scope(null, this.grammar),
+          symbols: new Scope(null, this.grammar),
         });
       });
       it('should be able to parse all items', function () {
@@ -641,7 +641,7 @@ describe('Test Parser.Context;', () => {
         ];
         this.context = new Context({
           tokens: this.tokens,
-          grammar: new Scope(null, this.grammar),
+          symbols: new Scope(null, this.grammar),
         });
       });
       it('should be able to parse all items', function () {
@@ -669,7 +669,7 @@ describe('Test Parser.Context;', () => {
         ];
         this.context = new Context({
           tokens: this.tokens,
-          grammar: new Scope(null, this.grammar),
+          symbols: new Scope(null, this.grammar),
         });
       });
       it('should throw if identifiers are expected', function () {

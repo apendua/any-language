@@ -22,10 +22,10 @@ export default class Parser {
   }
 
   parse(tokens, globals) {
-    const grammar = this.symbols.child(globals);
+    const symbols = this.symbols.child(globals);
     const context = new this.Context({
       tokens,
-      grammar,
+      symbols,
     });
     return context.expression();
   }

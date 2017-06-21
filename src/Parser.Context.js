@@ -22,17 +22,17 @@ export default class Context {
   constructor({
     order = 1,
     tokens = [],
-    grammar = new Scope(),
+    symbols = new Scope(),
   } = {}) {
     this.order = order;
     this.tokens = tokens;
-    this.grammar = grammar;
+    this.symbols = symbols;
 
     this.index = -1;
-    this.symbols = [null];
+    this.queue = [null];
 
     for (let i = 0; i < order; i += 1) {
-      this.symbols.push(null);
+      this.queue.push(null);
     }
 
     for (let i = 0; i < order; i += 1) {
@@ -47,7 +47,7 @@ export default class Context {
     if (offset > this.order) {
       throw new Error('Look ahead offset too large.');
     }
-    return this.symbols[offset];
+    return this.queue[offset];
   }
 
   /**
@@ -133,25 +133,25 @@ export default class Context {
   recognizeToken({ type, value }) {
     switch (type) {
       case TOKEN_TYPE_NAME:
-        return this.grammar.lookup(value) ||
-               this.grammar.lookup(SYMBOL_IDENTIFIER) ||
+        return this.symbols.lookup(value) ||
+               this.symbols.lookup(SYMBOL_IDENTIFIER) ||
                new Symbol(SYMBOL_IDENTIFIER);
 
       case TOKEN_TYPE_NUMBER:
       case TOKEN_TYPE_STRING:
-        return this.grammar.lookup(SYMBOL_LITERAL) ||
+        return this.symbols.lookup(SYMBOL_LITERAL) ||
                new Symbol(SYMBOL_LITERAL);
 
       case TOKEN_TYPE_OPERATOR:
-        return this.grammar.lookup(value) ||
+        return this.symbols.lookup(value) ||
                new Symbol(value, { unknown: true });
 
       case TOKEN_TYPE_COMMENT:
-        return this.grammar.lookup(SYMBOL_COMMENT) ||
+        return this.symbols.lookup(SYMBOL_COMMENT) ||
                new Symbol(SYMBOL_COMMENT, { ignored: true });
 
       case TOKEN_TYPE_WHITESPACE:
-        return this.grammar.lookup(SYMBOL_WHITESPACE) ||
+        return this.symbols.lookup(SYMBOL_WHITESPACE) ||
                new Symbol(SYMBOL_WHITESPACE, { ignored: true });
 
       default:
@@ -171,9 +171,9 @@ export default class Context {
 cannot reckognize next ${IDs.length} tokens.`);
     }
 
-    // NOTE: `this.symbols` is of length `this.order+1`
+    // NOTE: `this.queue` is of length `this.order+1`
     for (let i = 0; i < IDs.length; i += 1) {
-      if (this.symbols[i + 1].id !== IDs[i]) {
+      if (this.queue[i + 1].id !== IDs[i]) {
         return false;
       }
     }
@@ -201,7 +201,7 @@ cannot reckognize next ${IDs.length} tokens.`);
       const { type, value } = this.tokens[this.index];
       symbol = this.recognizeToken({ type, value }).copy({ type, value });
     } else if (this.index === this.tokens.length) {
-      symbol = (this.grammar.lookup(SYMBOL_END) || new Symbol(SYMBOL_END)).copy();
+      symbol = (this.symbols.lookup(SYMBOL_END) || new Symbol(SYMBOL_END)).copy();
     } else {
       symbol = null;
     }
@@ -212,18 +212,18 @@ cannot reckognize next ${IDs.length} tokens.`);
     }
 
     // Perform a "move" in the symbols queue
-    this.symbols.push(symbol);
-    this.symbols.shift();
+    this.queue.push(symbol);
+    this.queue.shift();
 
-    if (this.symbols[0]) {
-      if (id && this.symbols[0].id !== id) {
-        throw new ParseError(`Expected ${id}, got ${this.symbols[0].id}.`);
+    if (this.queue[0]) {
+      if (id && this.queue[0].id !== id) {
+        throw new ParseError(`Expected ${id}, got ${this.queue[0].id}.`);
       }
 
-      if (this.symbols[0].unknown) {
-        throw new ParseError(`Unknown symbol: ${this.symbols[0].value}.`);
+      if (this.queue[0].unknown) {
+        throw new ParseError(`Unknown symbol: ${this.queue[0].value}.`);
       }
     }
-    return this.symbols[0];
+    return this.queue[0];
   }
 }
