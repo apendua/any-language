@@ -1,1 +1,5 @@
 src
+examples
+package-lock.json
+node_modules
+*.test.js
