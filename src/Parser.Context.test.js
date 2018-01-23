@@ -16,7 +16,7 @@ import {
   TOKEN_TYPE_NAME,
   TOKEN_TYPE_NUMBER,
   TOKEN_TYPE_OPERATOR,
-  TOKEN_TYPE_COMMENT,
+  TOKEN_TYPE_LINE_COMMENT,
   TOKEN_TYPE_STRING,
   TOKEN_TYPE_WHITESPACE,
 } from './core/constants.js';
@@ -184,7 +184,7 @@ describe('Test Parser.Context;', () => {
 
   describe('given a dymmy context and a COMMENT', () => {
     beforeEach(function () {
-      this.tokens = [{ type: TOKEN_TYPE_COMMENT }];
+      this.tokens = [{ type: TOKEN_TYPE_LINE_COMMENT }];
       this.context = new Context({
         tokens: this.tokens,
       });
@@ -249,7 +249,7 @@ describe('Test Parser.Context;', () => {
     });
 
     it('should recognize COMMENT', function () {
-      this.context.recognizeToken({ type: TOKEN_TYPE_COMMENT, value: '' })
+      this.context.recognizeToken({ type: TOKEN_TYPE_LINE_COMMENT, value: '' })
         .should.equal(this.grammar[SYMBOL_COMMENT]);
     });
 

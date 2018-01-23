@@ -10,6 +10,7 @@ import {
   operator,
   string,
   whitespace,
+  lineComment,
 } from './tokens';
 import {
   TOKEN_TYPE_NAME,
@@ -17,6 +18,7 @@ import {
   TOKEN_TYPE_OPERATOR,
   TOKEN_TYPE_STRING,
   TOKEN_TYPE_WHITESPACE,
+  TOKEN_TYPE_LINE_COMMENT,
 } from './core/constants.js';
 
 chai.should();
@@ -29,6 +31,7 @@ export const createTokenizer = function () {
     operator,
     string,
     whitespace,
+    lineComment,
   ].forEach(parser => tokenizer.addParser(parser));
   return tokenizer;
 };
@@ -134,6 +137,16 @@ describe('Test Tokenizer', () => {
       value: ' \t\t ',
       from: 0,
       to: 3,
+      line: 0,
+    });
+  });
+
+  it('should reckognize a line comment', function () {
+    this.tokenizer.readToken('# abc\n1', 0).should.deep.equal({
+      type: TOKEN_TYPE_LINE_COMMENT,
+      value: '# abc',
+      from: 0,
+      to: 4,
       line: 0,
     });
   });

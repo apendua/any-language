@@ -3,6 +3,7 @@ import number from './number.js';
 import operator from './operator.js';
 import string from './string.js';
 import whitespace from './whitespace.js';
+import lineComment from './lineComment.js';
 
 export {
   name,
@@ -10,4 +11,5 @@ export {
   operator,
   string,
   whitespace,
+  lineComment,
 };

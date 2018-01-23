@@ -4,7 +4,7 @@ export const TOKEN_TYPE_NAME = 'NAME';
 export const TOKEN_TYPE_OPERATOR = 'OPERATOR';
 export const TOKEN_TYPE_NUMBER = 'NUMBER';
 export const TOKEN_TYPE_STRING = 'STRING';
-export const TOKEN_TYPE_COMMENT = 'COMMENT';
+export const TOKEN_TYPE_LINE_COMMENT = 'LINE_COMMENT';
 export const TOKEN_TYPE_WHITESPACE = 'WHITESPACE';
 
 export const DEFAULT_OPERATOR_PREFIXES = '.<>+-*/=!()';

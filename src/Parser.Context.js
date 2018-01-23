@@ -11,7 +11,7 @@ import {
   TOKEN_TYPE_OPERATOR,
   TOKEN_TYPE_STRING,
   TOKEN_TYPE_WHITESPACE,
-  TOKEN_TYPE_COMMENT,
+  TOKEN_TYPE_LINE_COMMENT,
 
 } from './core/constants.js';
 
@@ -146,7 +146,7 @@ export default class Context {
         return this.symbols.lookup(value) ||
                new Symbol(value, { unknown: true });
 
-      case TOKEN_TYPE_COMMENT:
+      case TOKEN_TYPE_LINE_COMMENT:
         return this.symbols.lookup(SYMBOL_COMMENT) ||
                new Symbol(SYMBOL_COMMENT, { ignored: true });
 
