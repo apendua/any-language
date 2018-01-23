@@ -5,7 +5,7 @@
 import chai, { expect } from 'chai';
 import Scope from './Scope.js';
 
-const should = chai.should();
+chai.should();
 
 describe('Test Scope; ', () => {
   describe('given a simple scope', () => {

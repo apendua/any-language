@@ -170,7 +170,7 @@ semantics
 
   parenthesis(),
 
-].forEach(plugin => parser.usePlugin(plugin));
+].forEach(plugin => plugin(parser));
 
 describe('Test Formula language', () => {
 

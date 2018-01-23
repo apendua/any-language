@@ -19,7 +19,7 @@ import {
   TOKEN_TYPE_WHITESPACE,
 } from './core/constants.js';
 
-const should = chai.should();
+chai.should();
 
 export const createTokenizer = function () {
   const tokenizer = new Tokenizer();

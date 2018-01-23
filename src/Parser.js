@@ -3,13 +3,11 @@ import Symbol from './Parser.Symbol.js';
 import Context from './Parser.Context.js';
 
 export default class Parser {
-  constructor() {
+  constructor(plugins = []) {
+    this.plugins = plugins;
     this.symbols = new Scope();
     this.Context = class ParserContext extends this.constructor.Context {};
-  }
-
-  usePlugin(plugin, options) {
-    plugin(this, options);
+    this.plugins.forEach(plugin => plugin(this));
   }
 
   symbol(id) {

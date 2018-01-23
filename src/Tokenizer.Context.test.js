@@ -4,7 +4,7 @@
 import chai from 'chai';
 import Context from './Tokenizer.Context.js';
 
-const should = chai.should();
+chai.should();
 
 describe('Test Tokenizer.Context', () => {
   describe('Given "abc" string', () => {

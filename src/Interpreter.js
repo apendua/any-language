@@ -5,10 +5,6 @@ export default class Interpreter {
     this.steps = {};
   }
 
-  usePlugin(plugin, options) {
-    plugin(this, options);
-  }
-
   evaluate(ast, scope) {
     const steps = this.steps;
     const context = new this.constructor.Context({

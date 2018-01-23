@@ -20,7 +20,7 @@ import {
   TOKEN_TYPE_STRING,
   TOKEN_TYPE_WHITESPACE } from './core/constants.js';
 
-const should = chai.should();
+chai.should();
 
 function binary(parse, { value }, left) {
   return { value,

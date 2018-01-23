@@ -4,10 +4,10 @@
 
 import chai, { expect } from 'chai';
 import { string } from './string.js';
-// import { expect } from 'meteor/gagarin:unit';
 import { TOKEN_TYPE_STRING } from '../core/constants.js';
 
-const should = chai.should();
+chai.should();
+
 describe('Test String parser', () => {
   beforeEach(function () {
     this.parser = string();

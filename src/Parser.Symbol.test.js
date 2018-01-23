@@ -5,7 +5,7 @@
 import chai from 'chai';
 import Symbol from './Parser.Symbol.js';
 
-const should = chai.should();
+chai.should();
 
 describe('Test Symbol; ', () => {
   beforeEach(function () {

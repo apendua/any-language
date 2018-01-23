@@ -15,7 +15,7 @@ import { RuntimeError } from './core/errors.js';
 import Scope from './Scope.js';
 import Context from './Interpreter.Context.js';
 
-const should = chai.should();
+chai.should();
 
 function binary(op) {
   return function (evaluation, node, state) {

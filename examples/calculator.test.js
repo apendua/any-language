@@ -15,7 +15,7 @@ import {
   SYMBOL_LITERAL,
 } from '../src/core/constants.js';
 
-const should = chai.should();
+chai.should();
 
 // ---------------------
 // --- GRAMMAR RULES ---
@@ -148,4 +148,3 @@ describe('Test calculator', () => {
     this.evaluate('(1+1)*((2+1)*3-4)').should.equal(10);
   });
 });
-
