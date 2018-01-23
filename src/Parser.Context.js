@@ -167,8 +167,7 @@ export default class Context {
    */
   match(...IDs) {
     if (IDs.length > this.order) {
-      throw new Error(`A parser context of order ${this.order}
-cannot reckognize next ${IDs.length} tokens.`);
+      throw new Error(`A parser of order ${this.order} cannot lookahead ${IDs.length} tokens.`);
     }
 
     // NOTE: `this.queue` is of length `this.order+1`

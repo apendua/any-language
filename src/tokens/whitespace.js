@@ -1,7 +1,8 @@
 import {
-  TOKEN_TYPE_WHITESPACE } from '../core/constants.js';
+  TOKEN_TYPE_WHITESPACE,
+} from '../core/constants.js';
 
-export function whitespace({
+export default function whitespace({
   type = TOKEN_TYPE_WHITESPACE,
 } = {}) {
   return {

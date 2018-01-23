@@ -18,7 +18,8 @@ import {
   TOKEN_TYPE_OPERATOR,
   TOKEN_TYPE_COMMENT,
   TOKEN_TYPE_STRING,
-  TOKEN_TYPE_WHITESPACE } from './core/constants.js';
+  TOKEN_TYPE_WHITESPACE,
+} from './core/constants.js';
 
 chai.should();
 

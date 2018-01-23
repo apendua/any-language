@@ -1,7 +1,7 @@
 /* eslint no-param-reassign: "off" */
 import { TOKEN_TYPE_NUMBER } from '../core/constants.js';
 
-export function number({
+export default function number({
   type = TOKEN_TYPE_NUMBER,
 } = {}) {
   return {

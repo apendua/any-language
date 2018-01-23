@@ -1,8 +1,9 @@
 import {
   TOKEN_TYPE_NAME,
-  TOKEN_TYPE_OPERATOR } from '../core/constants.js';
+  TOKEN_TYPE_OPERATOR,
+} from '../core/constants.js';
 
-export function name({
+export default function name({
   isOperator = () => false,
   type = TOKEN_TYPE_NAME,
   typeOperator = TOKEN_TYPE_OPERATOR,

@@ -3,7 +3,7 @@ import {
   TOKEN_TYPE_STRING,
 } from '../core/constants.js';
 
-export function string({
+export default function string({
   type = TOKEN_TYPE_STRING,
 } = {}) {
   return {

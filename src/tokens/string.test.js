@@ -3,7 +3,7 @@
 /* eslint prefer-arrow-callback: "off" */
 
 import chai, { expect } from 'chai';
-import { string } from './string.js';
+import string from './string.js';
 import { TOKEN_TYPE_STRING } from '../core/constants.js';
 
 chai.should();
@@ -41,7 +41,7 @@ describe('Test String parser', () => {
     state.escape.should.be.true;
   });
 
-  it('should skip quotes if escaped', function () {
+  it('should accept escaped quotes', function () {
     const state = { escape: true };
     this.parser.accept({ state,
       index: 1,

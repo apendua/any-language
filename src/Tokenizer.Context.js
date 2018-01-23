@@ -38,9 +38,9 @@ export default class Context {
       return {};
     }
     return { ...token,
-      line : this.lineNo,
-      from : this.start,
-      to   : (this.start + this.ctx.index) - 1,
+      line: this.lineNo,
+      from: this.start,
+      to: (this.start + this.ctx.index) - 1,
     };
   }
 }
