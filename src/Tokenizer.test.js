@@ -16,6 +16,7 @@ import {
   TOKEN_TYPE_IDENTIFIER,
   TOKEN_TYPE_LITERAL,
   TOKEN_TYPE_OPERATOR,
+  TOKEN_TYPE_KEYWORD,
   TOKEN_TYPE_WHITESPACE,
   TOKEN_TYPE_LINE_COMMENT,
 
@@ -27,7 +28,11 @@ import {
 chai.should();
 
 export const createTokenizer = function () {
-  const tokenizer = new Tokenizer();
+  const tokenizer = new Tokenizer({
+    options: {
+      keywords: ['AND', 'OR', 'NOT'],
+    },
+  });
   [
     name,
     number,
@@ -176,6 +181,16 @@ describe('Test Tokenizer', () => {
       value: '# abc',
       from: 0,
       to: 4,
+      line: 0,
+    });
+  });
+
+  it('should reckognize a keyword', function () {
+    this.tokenizer.readToken('AND', 0).should.deep.equal({
+      type: TOKEN_TYPE_KEYWORD,
+      value: 'AND',
+      from: 0,
+      to: 2,
       line: 0,
     });
   });

@@ -1,11 +1,15 @@
 import {
   TOKEN_TYPE_IDENTIFIER,
-  TOKEN_TYPE_OPERATOR,
+  TOKEN_TYPE_KEYWORD,
 } from '../core/constants.js';
 
 export default function name({
-  isOperator = () => false,
+  keywords = [],
 } = {}) {
+  const keys = {};
+  for (const k of keywords) {
+    keys[k] = k;
+  }
   return {
     accept({ index }, c) {
       if (c === '_') {
@@ -17,10 +21,10 @@ export default function name({
       return (c >= 'a' && c <= 'z') || (c >= 'A' && c <= 'Z');
     },
     create({ value }) {
-      if (isOperator(value)) {
+      if (keys[value]) {
         return {
           value,
-          type: TOKEN_TYPE_OPERATOR,
+          type: TOKEN_TYPE_KEYWORD,
         };
       }
       return {

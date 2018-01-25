@@ -1,6 +1,7 @@
 import { ParseError } from './core/errors.js';
 import {
   TOKEN_TYPE_IDENTIFIER,
+  TOKEN_TYPE_KEYWORD,
   TOKEN_TYPE_LITERAL,
   TOKEN_TYPE_OPERATOR,
   TOKEN_TYPE_WHITESPACE,
@@ -125,6 +126,7 @@ export default class Context {
    */
   token({ type, value }) {
     switch (type) {
+      case TOKEN_TYPE_KEYWORD:
       case TOKEN_TYPE_IDENTIFIER:
         return this.symbols.lookup(value) ||
                this.symbols.lookup(TOKEN_TYPE_IDENTIFIER) ||

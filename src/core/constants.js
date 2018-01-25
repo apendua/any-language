@@ -1,6 +1,7 @@
 // TODO: Consider adding another type of token: TOKEN_KEYWORD?
 
 export const TOKEN_TYPE_IDENTIFIER = '(IDENTIFIER)';
+export const TOKEN_TYPE_KEYWORD = '(KEYWORD)';
 export const TOKEN_TYPE_OPERATOR = '(OPERATOR)';
 export const TOKEN_TYPE_LITERAL = '(LITERAL)';
 export const TOKEN_TYPE_LINE_COMMENT = '(LINE COMMENT)';
