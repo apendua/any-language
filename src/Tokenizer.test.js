@@ -194,4 +194,10 @@ describe('Test Tokenizer', () => {
       line: 0,
     });
   });
+
+  it('should throw error on unexpected character', function () {
+    (() => {
+      this.tokenizer.tokenize('`');
+    }).should.throw(/character/);
+  });
 });

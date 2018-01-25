@@ -92,7 +92,7 @@ describe('Test calculator', () => {
     this.grammar = createGrammar();
     this.tokenizer = createTokenizer();
     this.evaluate = (code) => {
-      const { tokens } = this.tokenizer.tokenize(code);
+      const tokens = this.tokenizer.tokenize(code);
       return this.grammar.parse(tokens).value;
     };
   });

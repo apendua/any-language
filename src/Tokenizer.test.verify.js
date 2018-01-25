@@ -161,11 +161,8 @@ describe('Test Tokenizer', () => {
     jsc.array(arbitrary.token),
     (tokens) => {
       const compiled = compile(tokens);
-      const parsed = tokenizer.tokenize(compiled.code);
-      if (parsed.error) {
-        throw new Error(`Parse error: ${parsed.error} in "${compiled.code}"`);
-      }
-      parsed.tokens.should.deep.equal(compiled.tokens);
+      const parsedTokens = tokenizer.tokenize(compiled.code);
+      parsedTokens.should.deep.equal(compiled.tokens);
       return true;
     }));
 });

@@ -1,4 +1,8 @@
 import Context from './Tokenizer.Context.js';
+import { LexicalError } from './core/errors';
+import {
+  ERROR_UNEXPECTED_CHARACTER,
+} from './core/constants';
 
 // TODO: Check if regexp based version would be faster
 //       than the simple scanning technique.
@@ -54,12 +58,15 @@ export default class Tokenizer {
         while (index < line.length) {
           const token = this.readToken(line, index, { lineNo });
           if (!token) {
-            return {
-              error : `Unexpected character: ${line.charAt(index)}`,
-              line  : lineNo,
-              from  : index,
-              to    : index,
-            };
+            throw new LexicalError(
+              ERROR_UNEXPECTED_CHARACTER,
+              `Unexpected character: ${line.charAt(index)}`,
+              {
+                line: lineNo,
+                from: index,
+                to: index,
+              },
+            );
           } else if (token.error) {
             return token;
           }
@@ -68,7 +75,7 @@ export default class Tokenizer {
         }
       }
     }
-    return { tokens };
+    return tokens;
   }
 }
 
