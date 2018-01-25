@@ -41,7 +41,7 @@ describe('Test String parser', () => {
       value: '"',
       ahead: '"',
     }, '\\').should.be.true;
-    state.escape.should.be.true;
+    state.escape.should.to.eql(1);
   });
 
   it('should accept escaped quotes', function () {
@@ -51,7 +51,7 @@ describe('Test String parser', () => {
       value: '"\\',
       ahead: '"',
     }, '"').should.be.true;
-    expect(state.escape).to.be.false;
+    expect(state.escape).to.eql(0);
     expect(state.done).not.to.be.true;
   });
 

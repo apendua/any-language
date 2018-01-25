@@ -138,6 +138,28 @@ describe('Test Tokenizer', () => {
     });
   });
 
+  it('should reckognize a string literal with escaped "', function () {
+    this.tokenizer.readToken('"\\""', 0).should.deep.equal({
+      type: TOKEN_TYPE_LITERAL,
+      valueType: VALUE_TYPE_STRING,
+      value: '"',
+      from: 0,
+      to: 3,
+      line: 0,
+    });
+  });
+
+  it('should reckognize a string literal with escaped \\', function () {
+    this.tokenizer.readToken('"\\\\"', 0).should.deep.equal({
+      type: TOKEN_TYPE_LITERAL,
+      valueType: VALUE_TYPE_STRING,
+      value: '\\',
+      from: 0,
+      to: 3,
+      line: 0,
+    });
+  });
+
   it('should reckognize a whitespace token', function () {
     this.tokenizer.readToken(' \t\t ', 0).should.deep.equal({
       type: TOKEN_TYPE_WHITESPACE,
