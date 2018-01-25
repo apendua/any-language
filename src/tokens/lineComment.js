@@ -4,12 +4,12 @@ import {
 } from '../core/constants.js';
 
 export default function lineComment({
-  pattern = '#',
+  lineCommentDelimiter = '#',
 } = {}) {
   return {
     accept(ctx, c) {
-      if (ctx.index < pattern.length) {
-        return c === pattern.charAt(ctx.index);
+      if (ctx.index < lineCommentDelimiter.length) {
+        return c === lineCommentDelimiter.charAt(ctx.index);
       }
       if (c === '\n' || c === '\r') {
         return false;

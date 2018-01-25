@@ -35,7 +35,7 @@ export const createTokenizer = function () {
     string,
     whitespace,
     lineComment,
-  ].forEach(parser => tokenizer.addParser(parser));
+  ].forEach(plugin => tokenizer.addPlugin(plugin));
   return tokenizer;
 };
 

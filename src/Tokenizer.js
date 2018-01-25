@@ -4,12 +4,24 @@ import Context from './Tokenizer.Context.js';
 //       than the simple scanning technique.
 
 export default class Tokenizer {
-  constructor() {
-    this.parsers = [];
+  constructor({
+    plugins = [],
+    options: {
+      keywords = [],
+      operators,
+      lineCommentDelimiter = '#',
+    } = {},
+  } = {}) {
+    this.options = {
+      keywords,
+      operators,
+      lineCommentDelimiter,
+    };
+    this.parsers = plugins.map(plugin => plugin(this.options));
   }
 
-  addParser(parser, options) {
-    this.parsers.push(parser(options));
+  addPlugin(plugin) {
+    this.parsers.push(plugin(this.options));
   }
 
   readToken(line, start, options) {

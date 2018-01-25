@@ -77,12 +77,13 @@ const createGrammar = () => {
 };
 
 const createTokenizer = () => {
-  const tokenizer = new Tokenizer();
-  [
-    number,
-    operator,
-    whitespace,
-  ].forEach(parser => tokenizer.addParser(parser));
+  const tokenizer = new Tokenizer({
+    plugins: [
+      number,
+      operator,
+      whitespace,
+    ],
+  });
   return tokenizer;
 };
 

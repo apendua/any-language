@@ -5,8 +5,7 @@ import {
 } from '../core/constants.js';
 
 export default function operator({
-  prefixes = DEFAULT_OPERATOR_PREFIXES,
-  suffixes = DEFAULT_OPERATOR_SUFFIXES,
+  operators: [prefixes, suffixes] = [DEFAULT_OPERATOR_PREFIXES, DEFAULT_OPERATOR_SUFFIXES],
 } = {}) {
   const map1 = {};
   for (const c of prefixes.split('')) {
