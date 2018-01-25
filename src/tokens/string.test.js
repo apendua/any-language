@@ -4,7 +4,10 @@
 
 import chai, { expect } from 'chai';
 import string from './string.js';
-import { TOKEN_TYPE_STRING } from '../core/constants.js';
+import {
+  TOKEN_TYPE_LITERAL,
+  VALUE_TYPE_STRING,
+} from '../core/constants.js';
 
 chai.should();
 
@@ -77,8 +80,9 @@ describe('Test String parser', () => {
       value: JSON.stringify(text),
       ahead: '',
     }).should.deep.equal({
-      type: TOKEN_TYPE_STRING,
+      type: TOKEN_TYPE_LITERAL,
       value: text,
+      valueType: VALUE_TYPE_STRING,
     });
   });
 });

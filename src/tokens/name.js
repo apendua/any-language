@@ -1,12 +1,10 @@
 import {
-  TOKEN_TYPE_NAME,
+  TOKEN_TYPE_IDENTIFIER,
   TOKEN_TYPE_OPERATOR,
 } from '../core/constants.js';
 
 export default function name({
   isOperator = () => false,
-  type = TOKEN_TYPE_NAME,
-  typeOperator = TOKEN_TYPE_OPERATOR,
 } = {}) {
   return {
     accept({ index }, c) {
@@ -20,11 +18,15 @@ export default function name({
     },
     create({ value }) {
       if (isOperator(value)) {
-        return { value,
-          type: typeOperator,
+        return {
+          value,
+          type: TOKEN_TYPE_OPERATOR,
         };
       }
-      return { value, type };
+      return {
+        value,
+        type: TOKEN_TYPE_IDENTIFIER,
+      };
     },
   };
 }

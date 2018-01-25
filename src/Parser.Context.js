@@ -1,21 +1,14 @@
 import { ParseError } from './core/errors.js';
 import {
-  SYMBOL_IDENTIFIER,
-  SYMBOL_LITERAL,
-  SYMBOL_COMMENT,
-  SYMBOL_WHITESPACE,
-  SYMBOL_END,
-
-  TOKEN_TYPE_NAME,
-  TOKEN_TYPE_NUMBER,
+  TOKEN_TYPE_IDENTIFIER,
+  TOKEN_TYPE_LITERAL,
   TOKEN_TYPE_OPERATOR,
-  TOKEN_TYPE_STRING,
   TOKEN_TYPE_WHITESPACE,
   TOKEN_TYPE_LINE_COMMENT,
-
+  TOKEN_TYPE_END,
 } from './core/constants.js';
 
-import Symbol from './Parser.Symbol.js';
+import Token from './Parser.Token.js';
 import Scope from './Scope.js';
 
 export default class Context {
@@ -73,7 +66,7 @@ export default class Context {
         block.push(this.statement({ separator }));
       } while (
         this.look(1).id !== end &&
-        this.look(1).id !== SYMBOL_END
+        this.look(1).id !== TOKEN_TYPE_END
       );
     }
     this.advance(end);
@@ -84,7 +77,7 @@ export default class Context {
    * Consume all statements in the source code.
    */
   statements({ separator = ';' }) {
-    return this.block({ separator, end: SYMBOL_END });
+    return this.block({ separator, end: TOKEN_TYPE_END });
   }
 
   tuple({ separator = ',', end = ']', id }) {
@@ -130,29 +123,28 @@ export default class Context {
    *
    * Throws parse error if token is of unknown type.
    */
-  recognizeToken({ type, value }) {
+  token({ type, value }) {
     switch (type) {
-      case TOKEN_TYPE_NAME:
+      case TOKEN_TYPE_IDENTIFIER:
         return this.symbols.lookup(value) ||
-               this.symbols.lookup(SYMBOL_IDENTIFIER) ||
-               new Symbol(SYMBOL_IDENTIFIER);
+               this.symbols.lookup(TOKEN_TYPE_IDENTIFIER) ||
+               new Token(TOKEN_TYPE_IDENTIFIER);
 
-      case TOKEN_TYPE_NUMBER:
-      case TOKEN_TYPE_STRING:
-        return this.symbols.lookup(SYMBOL_LITERAL) ||
-               new Symbol(SYMBOL_LITERAL);
+      case TOKEN_TYPE_LITERAL:
+        return this.symbols.lookup(TOKEN_TYPE_LITERAL) ||
+               new Token(TOKEN_TYPE_LITERAL);
 
       case TOKEN_TYPE_OPERATOR:
         return this.symbols.lookup(value) ||
-               new Symbol(value, { unknown: true });
+               new Token(value, { unknown: true });
 
       case TOKEN_TYPE_LINE_COMMENT:
-        return this.symbols.lookup(SYMBOL_COMMENT) ||
-               new Symbol(SYMBOL_COMMENT, { ignored: true });
+        return this.symbols.lookup(TOKEN_TYPE_LINE_COMMENT) ||
+               new Token(TOKEN_TYPE_LINE_COMMENT, { ignored: true });
 
       case TOKEN_TYPE_WHITESPACE:
-        return this.symbols.lookup(SYMBOL_WHITESPACE) ||
-               new Symbol(SYMBOL_WHITESPACE, { ignored: true });
+        return this.symbols.lookup(TOKEN_TYPE_WHITESPACE) ||
+               new Token(TOKEN_TYPE_WHITESPACE, { ignored: true });
 
       default:
         throw new ParseError(`Unknown token ${type}: ${value}`);
@@ -189,29 +181,29 @@ export default class Context {
     this.index += 1;
 
     // The following condition should be equivalent to saying that
-    // this.look(0).id === SYMBOL_END
+    // this.look(0).id === TOKEN_TYPE_END
     if (this.index > this.tokens.length + this.order) {
       throw new ParseError('Unexpected end of input.');
     }
 
-    // Analize the new symbol
-    let symbol;
+    // Analize the new token
+    let token;
     if (this.index < this.tokens.length) {
       const { type, value } = this.tokens[this.index];
-      symbol = this.recognizeToken({ type, value }).copy({ type, value });
+      token = this.token({ type, value }).copy({ type, value });
     } else if (this.index === this.tokens.length) {
-      symbol = (this.symbols.lookup(SYMBOL_END) || new Symbol(SYMBOL_END)).copy();
+      token = (this.symbols.lookup(TOKEN_TYPE_END) || new Token(TOKEN_TYPE_END)).copy();
     } else {
-      symbol = null;
+      token = null;
     }
 
     // Skip this symbol if it's ignored
-    if (symbol && symbol.ignored) {
+    if (token && token.ignored) {
       return this.advance();
     }
 
     // Perform a "move" in the symbols queue
-    this.queue.push(symbol);
+    this.queue.push(token);
     this.queue.shift();
 
     if (this.queue[0]) {

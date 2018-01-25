@@ -3,20 +3,20 @@
 /* eslint prefer-arrow-callback: "off" */
 
 import chai from 'chai';
-import Symbol from './Parser.Symbol.js';
+import Token from './Parser.Token.js';
 
 chai.should();
 
-describe('Test Symbol; ', () => {
+describe('Test Token; ', () => {
   beforeEach(function () {
-    this.s1 = new Symbol();
+    this.s1 = new Token();
     this.s1.ifUsedAsPrefix(i => (i === 1 ? 'prefix_1' : null));
     this.s1.ifUsedAsPrefix(i => (i === 2 ? 'prefix_2' : null));
     this.s1.ifUsedAsInfix(i => (i === 1 ? 'infix_1' : null));
     this.s1.ifUsedAsInfix(i => (i === 2 ? 'infix_2' : null));
     this.s1.ifUsedAsStatement(() => 'statement_1');
 
-    this.s2 = new Symbol();
+    this.s2 = new Token();
   });
 
   it('should know if it can be used as prefix', function () {

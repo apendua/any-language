@@ -5,7 +5,6 @@ import {
 } from '../core/constants.js';
 
 export default function operator({
-  type = TOKEN_TYPE_OPERATOR,
   prefixes = DEFAULT_OPERATOR_PREFIXES,
   suffixes = DEFAULT_OPERATOR_SUFFIXES,
 } = {}) {
@@ -27,7 +26,10 @@ export default function operator({
       return !!map2[c];
     },
     create({ value }) {
-      return { value, type };
+      return {
+        value,
+        type: TOKEN_TYPE_OPERATOR,
+      };
     },
   };
 }

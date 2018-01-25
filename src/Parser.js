@@ -1,26 +1,26 @@
 import Scope from './Scope.js';
-import Symbol from './Parser.Symbol.js';
+import Token from './Parser.Token.js';
 import Context from './Parser.Context.js';
 
 export default class Parser {
   constructor(plugins = []) {
     this.plugins = plugins;
+    this.grammar = new Scope();
     this.symbols = new Scope();
     this.Context = class ParserContext extends this.constructor.Context {};
     this.plugins.forEach(plugin => plugin(this));
   }
 
-  symbol(id) {
-    let symbol = this.symbols.get(id);
-    if (!symbol) {
-      symbol = new Symbol(id);
-      this.symbols.define(id, symbol);
+  token(id) {
+    const token = this.grammar.get(id);
+    if (token) {
+      return token;
     }
-    return symbol;
+    return this.grammar.define(id, new Token(id));
   }
 
   parse(tokens, globals) {
-    const symbols = this.symbols.child(globals);
+    const symbols = this.grammar.child(globals);
     const context = new this.Context({
       tokens,
       symbols,

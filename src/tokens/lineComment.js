@@ -4,7 +4,6 @@ import {
 } from '../core/constants.js';
 
 export default function lineComment({
-  type = TOKEN_TYPE_LINE_COMMENT,
   pattern = '#',
 } = {}) {
   return {
@@ -18,7 +17,10 @@ export default function lineComment({
       return true;
     },
     create(ctx) {
-      return { type, value: ctx.value };
+      return {
+        type: TOKEN_TYPE_LINE_COMMENT,
+        value: ctx.value,
+      };
     },
   };
 }

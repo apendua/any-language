@@ -1,6 +1,6 @@
 import { ParseError } from './core/errors.js';
 
-export default class Symbol {
+export default class Token {
   constructor(id, {
 
     lbp = 0,

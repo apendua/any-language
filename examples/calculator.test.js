@@ -12,7 +12,7 @@ import {
   whitespace,
 } from '../src/tokens';
 import {
-  SYMBOL_LITERAL,
+  TOKEN_TYPE_LITERAL,
 } from '../src/core/constants.js';
 
 chai.should();
@@ -24,7 +24,7 @@ chai.should();
 function unary(id, bp, transform) {
   return (grammar) => {
     grammar
-      .symbol(id)
+      .token(id)
       .ifUsedAsPrefix(parse => ({
         value: transform(parse.expression(bp).value),
       }));
@@ -34,7 +34,7 @@ function unary(id, bp, transform) {
 function binary(id, bp, transform) {
   return (grammar) => {
     grammar
-      .symbol(id)
+      .token(id)
       .setBindingPower(bp)
       .ifUsedAsInfix((parse, token, left) => ({
         value: transform(left.value, parse.expression(bp).value),
@@ -46,16 +46,16 @@ const createGrammar = () => {
   const grammar = new Parser();
 
   grammar
-    .symbol(SYMBOL_LITERAL)
+    .token(TOKEN_TYPE_LITERAL)
     .ifUsedAsPrefix((parse, token) => ({
       value: token.value,
     }));
 
   grammar
-    .symbol(')');
+    .token(')');
 
   grammar
-    .symbol('(')
+    .token('(')
     .ifUsedAsPrefix((parse) => {
       const e = parse.expression(0);
       parse.advance(')');

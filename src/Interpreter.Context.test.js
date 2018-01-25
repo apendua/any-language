@@ -6,8 +6,8 @@
 import chai from 'chai';
 import {
 
-  SYMBOL_LITERAL,
-  SYMBOL_IDENTIFIER,
+  TOKEN_TYPE_LITERAL,
+  TOKEN_TYPE_IDENTIFIER,
 
 } from './core/constants.js';
 
@@ -44,10 +44,10 @@ function binary(op) {
 
 export function createSteps() {
   return {
-    [SYMBOL_LITERAL](evaluation, node) {
+    [TOKEN_TYPE_LITERAL](evaluation, node) {
       return { value: node.value };
     },
-    [SYMBOL_IDENTIFIER](evaluation, node) {
+    [TOKEN_TYPE_IDENTIFIER](evaluation, node) {
       const variable =
         evaluation
           .getScope()
@@ -65,17 +65,17 @@ describe('Test Interpreter.Context;', () => {
     this.ast = {
       id: '+',
       left: {
-        id: SYMBOL_LITERAL,
+        id: TOKEN_TYPE_LITERAL,
         value: 1,
       },
       right: {
         id: '*',
         left: {
-          id: SYMBOL_LITERAL,
+          id: TOKEN_TYPE_LITERAL,
           value: 2,
         },
         right: {
-          id: SYMBOL_IDENTIFIER,
+          id: TOKEN_TYPE_IDENTIFIER,
           value: 'three',
         },
       },

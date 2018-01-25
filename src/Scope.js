@@ -28,6 +28,7 @@ export default class Scope {
 
   define(key, value) {
     this.symbols[key] = value;
+    return value;
   }
 
   // NOTE: This could also be implemented using with prototypes.

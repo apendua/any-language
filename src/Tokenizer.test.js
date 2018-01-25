@@ -13,12 +13,15 @@ import {
   lineComment,
 } from './tokens';
 import {
-  TOKEN_TYPE_NAME,
-  TOKEN_TYPE_NUMBER,
+  TOKEN_TYPE_IDENTIFIER,
+  TOKEN_TYPE_LITERAL,
   TOKEN_TYPE_OPERATOR,
-  TOKEN_TYPE_STRING,
   TOKEN_TYPE_WHITESPACE,
   TOKEN_TYPE_LINE_COMMENT,
+
+  VALUE_TYPE_INTEGER,
+  VALUE_TYPE_DECIMAL,
+  VALUE_TYPE_STRING,
 } from './core/constants.js';
 
 chai.should();
@@ -43,7 +46,7 @@ describe('Test Tokenizer', () => {
 
   it('should reckognize a name', function () {
     this.tokenizer.readToken('any', 0).should.deep.equal({
-      type: TOKEN_TYPE_NAME,
+      type: TOKEN_TYPE_IDENTIFIER,
       value: 'any',
       from: 0,
       to: 2,
@@ -53,7 +56,7 @@ describe('Test Tokenizer', () => {
 
   it('should reckognize a name prefixed with lodash', function () {
     this.tokenizer.readToken('_any', 0).should.deep.equal({
-      type: TOKEN_TYPE_NAME,
+      type: TOKEN_TYPE_IDENTIFIER,
       value: '_any',
       from: 0,
       to: 3,
@@ -63,7 +66,7 @@ describe('Test Tokenizer', () => {
 
   it('should reckognize a name containing digits', function () {
     this.tokenizer.readToken('x12', 0).should.deep.equal({
-      type: TOKEN_TYPE_NAME,
+      type: TOKEN_TYPE_IDENTIFIER,
       value: 'x12',
       from: 0,
       to: 2,
@@ -73,7 +76,8 @@ describe('Test Tokenizer', () => {
 
   it('should not reckognize a name started with a digit', function () {
     this.tokenizer.readToken('1x', 0).should.deep.equal({
-      type: TOKEN_TYPE_NUMBER,
+      type: TOKEN_TYPE_LITERAL,
+      valueType: VALUE_TYPE_INTEGER,
       value: 1,
       from: 0,
       to: 0,
@@ -83,7 +87,8 @@ describe('Test Tokenizer', () => {
 
   it('should reckognize an integer number', function () {
     this.tokenizer.readToken('123', 0).should.deep.equal({
-      type: TOKEN_TYPE_NUMBER,
+      type: TOKEN_TYPE_LITERAL,
+      valueType: VALUE_TYPE_INTEGER,
       value: 123,
       from: 0,
       to: 2,
@@ -93,7 +98,8 @@ describe('Test Tokenizer', () => {
 
   it('should reckognize a decimal number', function () {
     this.tokenizer.readToken('1234.5', 0).should.deep.equal({
-      type: TOKEN_TYPE_NUMBER,
+      type: TOKEN_TYPE_LITERAL,
+      valueType: VALUE_TYPE_DECIMAL,
       value: 1234.5,
       from: 0,
       to: 5,
@@ -123,7 +129,8 @@ describe('Test Tokenizer', () => {
 
   it('should reckognize a string literal', function () {
     this.tokenizer.readToken('"abc"', 0).should.deep.equal({
-      type: TOKEN_TYPE_STRING,
+      type: TOKEN_TYPE_LITERAL,
+      valueType: VALUE_TYPE_STRING,
       value: 'abc',
       from: 0,
       to: 4,

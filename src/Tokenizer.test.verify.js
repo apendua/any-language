@@ -6,13 +6,15 @@ import jsc from 'jsverify';
 import sample from 'lodash.sample';
 import shortid from 'shortid';
 import {
-  TOKEN_TYPE_NAME,
-  TOKEN_TYPE_NUMBER,
+  TOKEN_TYPE_IDENTIFIER,
+  TOKEN_TYPE_LITERAL,
   TOKEN_TYPE_OPERATOR,
-  TOKEN_TYPE_STRING,
   TOKEN_TYPE_WHITESPACE,
+  VALUE_TYPE_INTEGER,
+  VALUE_TYPE_STRING,
   DEFAULT_OPERATOR_PREFIXES,
-  DEFAULT_OPERATOR_SUFFIXES } from './core/constants.js';
+  DEFAULT_OPERATOR_SUFFIXES,
+} from './core/constants.js';
 import { createTokenizer } from './Tokenizer.test.js';
 
 const arbitrary = {};
@@ -42,23 +44,25 @@ arbitrary.operator = jsc.bless({
 
 arbitrary.token = jsc.oneof([
   jsc.record({
-    type: jsc.constant(TOKEN_TYPE_NAME),
+    type: jsc.constant(TOKEN_TYPE_IDENTIFIER),
     value: arbitrary.name,
   }),
 
   jsc.record({
-    type: jsc.constant(TOKEN_TYPE_STRING),
+    type: jsc.constant(TOKEN_TYPE_LITERAL),
     value: jsc.asciinestring,
+    valueType: jsc.constant(VALUE_TYPE_STRING),
   }),
 
   jsc.record({
-    type  : jsc.constant(TOKEN_TYPE_NUMBER),
-    value : jsc.nat,
+    type: jsc.constant(TOKEN_TYPE_LITERAL),
+    value: jsc.nat,
+    valueType: jsc.constant(VALUE_TYPE_INTEGER),
   }),
 
   jsc.record({
-    type  : jsc.constant(TOKEN_TYPE_OPERATOR),
-    value : arbitrary.operator,
+    type: jsc.constant(TOKEN_TYPE_OPERATOR),
+    value: arbitrary.operator,
   }),
 ]);
 
@@ -89,12 +93,13 @@ function property(arb, verify) {
 function compile(rawTokens) {
   const tokens = [];
   let prev = TOKEN_TYPE_WHITESPACE;
+  let prevValueType;
   let code = '';
-  for (const { value, type } of rawTokens) {
+  for (const { value, valueType, type } of rawTokens) {
     let str = '';
     let sep = '';
     switch (type) {
-      case TOKEN_TYPE_NAME:
+      case TOKEN_TYPE_IDENTIFIER:
         str = value;
         if (prev !== TOKEN_TYPE_OPERATOR &&
             prev !== TOKEN_TYPE_WHITESPACE) {
@@ -102,24 +107,26 @@ function compile(rawTokens) {
         }
         break;
 
-      case TOKEN_TYPE_NUMBER:
-        str = value.toString();
-        if (prev !== TOKEN_TYPE_OPERATOR &&
-            prev !== TOKEN_TYPE_WHITESPACE) {
-          sep = ' ';
+      case TOKEN_TYPE_LITERAL: {
+        if (valueType === VALUE_TYPE_INTEGER) {
+          str = value.toString();
+          if (prev !== TOKEN_TYPE_OPERATOR &&
+              prev !== TOKEN_TYPE_WHITESPACE) {
+            sep = ' ';
+          }
+        } else if (valueType === VALUE_TYPE_STRING) {
+          str = JSON.stringify(value);
         }
         break;
+      }
 
       case TOKEN_TYPE_OPERATOR:
         str = value;
-        if ((value === '.' && prev === TOKEN_TYPE_NUMBER) || prev === TOKEN_TYPE_OPERATOR) {
+        if ((value === '.' && prev === TOKEN_TYPE_LITERAL && prevValueType === VALUE_TYPE_INTEGER) || prev === TOKEN_TYPE_OPERATOR) {
           sep = ' ';
         }
         break;
 
-      case TOKEN_TYPE_STRING:
-        str = JSON.stringify(value);
-        break;
       default:
         // do nothing
     }
@@ -134,6 +141,7 @@ function compile(rawTokens) {
     }
     tokens.push({
       value,
+      ...valueType && { valueType },
       type,
       line: 0,
       from: code.length + sep.length,
@@ -141,6 +149,7 @@ function compile(rawTokens) {
     });
     code += sep + str;
     prev = type;
+    prevValueType = valueType;
   }
   return { code, tokens };
 }
@@ -150,7 +159,6 @@ describe('Test Tokenizer', () => {
 
   it('should properly tokenize random chains of tokens', property(
     jsc.array(arbitrary.token),
-
     (tokens) => {
       const compiled = compile(tokens);
       const parsed = tokenizer.tokenize(compiled.code);

@@ -1,19 +1,17 @@
-// TODO: Split "NUMBER" into "INTEGER" and "DECIMAL"
+// TODO: Consider adding another type of token: TOKEN_KEYWORD?
 
-export const TOKEN_TYPE_NAME = 'NAME';
-export const TOKEN_TYPE_OPERATOR = 'OPERATOR';
-export const TOKEN_TYPE_NUMBER = 'NUMBER';
-export const TOKEN_TYPE_STRING = 'STRING';
-export const TOKEN_TYPE_LINE_COMMENT = 'LINE_COMMENT';
-export const TOKEN_TYPE_WHITESPACE = 'WHITESPACE';
+export const TOKEN_TYPE_IDENTIFIER = '(IDENTIFIER)';
+export const TOKEN_TYPE_OPERATOR = '(OPERATOR)';
+export const TOKEN_TYPE_LITERAL = '(LITERAL)';
+export const TOKEN_TYPE_LINE_COMMENT = '(LINE COMMENT)';
+export const TOKEN_TYPE_WHITESPACE = '(WHITESPACE)';
+export const TOKEN_TYPE_END = '(END)';
+
+export const VALUE_TYPE_INTEGER = 'INTEGER';
+export const VALUE_TYPE_DECIMAL = 'DECIMAL';
+export const VALUE_TYPE_STRING = 'STRING';
+export const VALUE_TYPE_BOOLEAN = 'BOOLEAN';
 
 export const DEFAULT_OPERATOR_PREFIXES = '.<>+-*/=!()';
 export const DEFAULT_OPERATOR_SUFFIXES = '.=>';
 
-// TODO: Consider adding another type of symbol: SYMBOL_KEYWORD
-
-export const SYMBOL_LITERAL = '(literal)';
-export const SYMBOL_IDENTIFIER = '(identifier)';
-export const SYMBOL_WHITESPACE = '(whitespace)';
-export const SYMBOL_COMMENT = '(comment)';
-export const SYMBOL_END = '(end)';

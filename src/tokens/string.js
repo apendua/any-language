@@ -1,11 +1,10 @@
 /* eslint no-param-reassign: "off" */
 import {
-  TOKEN_TYPE_STRING,
+  TOKEN_TYPE_LITERAL,
+  VALUE_TYPE_STRING,
 } from '../core/constants.js';
 
-export default function string({
-  type = TOKEN_TYPE_STRING,
-} = {}) {
+export default function string() {
   return {
     accept({ index, state }, c) {
       if (state.done) {
@@ -27,7 +26,11 @@ export default function string({
       return true;
     },
     create(ctx) {
-      return { type, value: JSON.parse(ctx.value) };
+      return {
+        type: TOKEN_TYPE_LITERAL,
+        valueType: VALUE_TYPE_STRING,
+        value: JSON.parse(ctx.value),
+      };
     },
   };
 }

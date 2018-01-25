@@ -1,9 +1,11 @@
 /* eslint no-param-reassign: "off" */
-import { TOKEN_TYPE_NUMBER } from '../core/constants.js';
+import {
+  TOKEN_TYPE_LITERAL,
+  VALUE_TYPE_DECIMAL,
+  VALUE_TYPE_INTEGER,
+} from '../core/constants.js';
 
-export default function number({
-  type = TOKEN_TYPE_NUMBER,
-} = {}) {
+export default function number() {
   return {
     accept({ index, state, ahead }, c) {
       if (index === 0) {
@@ -22,7 +24,11 @@ export default function number({
     },
     create(ctx) {
       const value = parseFloat(ctx.value);
-      return { value, type };
+      return {
+        value,
+        valueType: ctx.state.dot ? VALUE_TYPE_DECIMAL : VALUE_TYPE_INTEGER,
+        type: TOKEN_TYPE_LITERAL,
+      };
     },
   };
 }

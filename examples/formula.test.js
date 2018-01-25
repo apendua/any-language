@@ -8,12 +8,11 @@ import Tokenizer from '../src/Tokenizer.js';
 import Interpreter from '../src/Interpreter.js';
 import Parser from '../src/Parser.js';
 import {
-  SYMBOL_LITERAL,
-  SYMBOL_IDENTIFIER,
+  TOKEN_TYPE_LITERAL,
+  TOKEN_TYPE_IDENTIFIER,
 } from '../src/core/constants.js';
 
 import {
-  ParseError,
   SemanticError,
 } from '../src/core/errors.js';
 
@@ -31,15 +30,15 @@ const semantics = new Interpreter();
 function subRoutine() {
   return (grammar) => {
     grammar
-      .symbol('function')
+      .token('function')
       .ifUsedAsPrefix((parse) => {
         const name =
-          parse.advance(SYMBOL_IDENTIFIER);
+          parse.advance(TOKEN_TYPE_IDENTIFIER);
         parse.advance('(');
         const args = parse.tuple({
           separator: ',',
           end: ')',
-          id: SYMBOL_IDENTIFIER,
+          id: TOKEN_TYPE_IDENTIFIER,
         });
         parse.advance('{');
         return {
@@ -54,10 +53,10 @@ function subRoutine() {
 function parenthesis() {
   return (grammar) => {
     grammar
-      .symbol(')');
+      .token(')');
 
     grammar
-      .symbol('(')
+      .token('(')
       .ifUsedAsPrefix((parse) => {
         const e = parse.expression(0);
         parse.advance(')');
@@ -69,7 +68,7 @@ function parenthesis() {
 function unary(id, bp) {
   return (grammar) => {
     grammar
-      .symbol(id)
+      .token(id)
       .ifUsedAsPrefix(parse => ({
         value: id,
         right: parse.expression(bp),
@@ -80,7 +79,7 @@ function unary(id, bp) {
 function binary(id, bp) {
   return (grammar) => {
     grammar
-      .symbol(id)
+      .token(id)
       .setBindingPower(bp)
       .ifUsedAsInfix((parse, token, left) => ({
         left,
@@ -93,7 +92,7 @@ function binary(id, bp) {
 function binaryRight(id, bp) {
   return (grammar) => {
     grammar
-      .symbol(id)
+      .token(id)
       .setBindingPower(bp)
       .ifUsedAsInfix((parse, token, left) => ({
         left,
@@ -105,10 +104,10 @@ function binaryRight(id, bp) {
 
 function tuple() {
   return (grammar) => {
-    grammar.symbol(']');
-    grammar.symbol(',');
+    grammar.token(']');
+    grammar.token(',');
     grammar
-      .symbol('[')
+      .token('[')
       .ifUsedAsPrefix(parse => ({
         items: parse.tuple({ separator: ',', end: ']' }),
       }));
@@ -118,7 +117,7 @@ function tuple() {
 function literal() {
   return (grammar) => {
     grammar
-      .symbol(SYMBOL_LITERAL)
+      .token(TOKEN_TYPE_LITERAL)
       .ifUsedAsPrefix((parse, token) => ({
         value: token.value,
       }));
